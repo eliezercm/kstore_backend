@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import mongoose from 'mongoose';
 
 import Product from '../models/Product';
+import Category from '../models/Category';
 
 class ProductController {
   async index(req, res) {
@@ -11,12 +12,14 @@ class ProductController {
   }
 
   async store(req, res) {
+    // if promoPrice is null send as 0
+
     const {
       name,
       reference,
       internal_code,
       price,
-      phone,
+      promoPrice,
       size,
       colorCode,
       category,
@@ -28,7 +31,6 @@ class ProductController {
       !reference |
       !internal_code |
       !price |
-      !phone |
       !size |
       !colorCode |
       !category |
@@ -37,20 +39,16 @@ class ProductController {
       return res.status(400).json({ error: 'Preencha todos os campos.' });
 
     if (!mongoose.Types.ObjectId.isValid(category)) {
-      return res.sendStatus(400).json({ error: 'Essa categoria não existe!' });
+      return res.status(400).json({ error: 'Insira uma categoria válida.' });
     }
 
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      reference: Yup.string()
-        .email()
-        .required(),
+      reference: Yup.string().required(),
       internal_code: Yup.string().required(),
       price: Yup.number().required(),
-      phone: Yup.string().required(),
-      size: Yup.string()
-        .oneOf(['PP', 'P', 'M', 'G', 'GG'])
-        .required(),
+      promoPrice: Yup.number(),
+      size: Yup.array().of(Yup.string().oneOf(['PP', 'P', 'M', 'G', 'GG'])),
       colorCode: Yup.string().required(),
       category: Yup.string().required(),
       description: Yup.string().required(),
@@ -59,10 +57,29 @@ class ProductController {
     try {
       await schema.validate(req.body);
     } catch (err) {
-      return res.status(400).json({ error: 'Houve um erro de validação!' });
+      return res
+        .status(400)
+        .json({ error: 'Houve um erro de validação!', err });
     }
 
-    return res.json();
+    const categoryFromDb = await Category.findById(category);
+
+    if (!categoryFromDb)
+      return res.status(400).json({ error: 'Esta categoria não existe!' });
+
+    const product = await Product.create({
+      name,
+      reference,
+      internal_code,
+      price,
+      promoPrice: promoPrice ? promoPrice : 0,
+      size,
+      colorCode,
+      category,
+      description,
+    });
+
+    return res.json({ product });
   }
 }
 

@@ -22,11 +22,13 @@ const ProductSchema = new mongoose.Schema({
   promoPrice: {
     type: Number,
   },
-  size: {
-    type: String,
-    enum: ['PP', 'P', 'M', 'G', 'GG'],
-    required: true,
-  },
+  size: [
+    {
+      type: String,
+      enum: ['PP', 'P', 'M', 'G', 'GG'],
+      required: true,
+    },
+  ],
   colorCode: {
     type: String,
     required: true,
