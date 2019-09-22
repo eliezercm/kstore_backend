@@ -4,25 +4,30 @@ import User from '../models/User';
 
 class UserController {
   async store(req, res) {
+    const { name, email, password, phone, roleDesired } = req.body;
+
+    if (!name | !email | !password | !phone | !roleDesired)
+      return res.status(400).json({ error: 'Preencha todos os campos.' });
+
     const schema = Yup.object().shape({
-      name: Yup.string().required,
+      name: Yup.string().required(),
       email: Yup.string()
         .email()
         .required(),
       password: Yup.string()
         .required()
         .min(6),
-      phone: Yup.number().required(),
+      phone: Yup.string().required(),
       roleDesired: Yup.string()
         .oneOf(['Cliente', 'Revendedora'])
         .required(),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+    try {
+      await schema.validate(req.body);
+    } catch (err) {
+      return res.status(400).json({ error: 'Houve um erro de validação!' });
     }
-
-    const { name, email, password, phone, roleDesired } = req.body;
 
     const userExists = await User.findOne({ email });
 
