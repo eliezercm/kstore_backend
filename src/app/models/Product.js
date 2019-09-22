@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  code: {
+  internal_code: {
     type: String,
     unique: true,
     required: true,
