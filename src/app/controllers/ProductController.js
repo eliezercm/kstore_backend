@@ -57,9 +57,7 @@ class ProductController {
     try {
       await schema.validate(req.body);
     } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Houve um erro de validação!', err });
+      return res.status(400).json({ error: 'Houve um erro de validação!' });
     }
 
     const categoryFromDb = await Category.findById(category);
