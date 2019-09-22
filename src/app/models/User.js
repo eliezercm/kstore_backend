@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema({
     default: 'Pending',
   },
   roleDesired: {
+    type: String,
     enum: ['Revendedora', 'Cliente'],
     required: true,
   },
