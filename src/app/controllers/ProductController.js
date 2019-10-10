@@ -17,7 +17,7 @@ class ProductController {
     const {
       name,
       reference,
-      internal_code,
+      internalCode,
       price,
       promoPrice,
       size,
@@ -29,7 +29,7 @@ class ProductController {
     if (
       !name |
       !reference |
-      !internal_code |
+      !internalCode |
       !price |
       !size |
       !colorCode |
@@ -45,7 +45,7 @@ class ProductController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       reference: Yup.string().required(),
-      internal_code: Yup.string().required(),
+      internalCode: Yup.string().required(),
       price: Yup.number().required(),
       promoPrice: Yup.number(),
       size: Yup.array().of(Yup.string().oneOf(['PP', 'P', 'M', 'G', 'GG'])),
@@ -68,7 +68,7 @@ class ProductController {
     const product = await Product.create({
       name,
       reference,
-      internal_code,
+      internalCode,
       price,
       promoPrice: promoPrice ? promoPrice : 0,
       size,
