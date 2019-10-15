@@ -5,6 +5,11 @@ import Order from '../models/Order';
 import Product from '../models/Product';
 
 class OrderController {
+  async getTotalCount(req, res) {
+    const orders = await Order.find().where({ user: req.userId });
+    return res.json({ count: orders.length });
+  }
+
   async index(req, res) {
     const orders = await Order.find().where({ user: req.userId });
     return res.json({ orders });

@@ -27,5 +27,6 @@ routes.post('/products', ProductController.store);
 // Order
 routes.get('/orders', OrderController.index);
 routes.post('/orders', OrderController.store);
+routes.get('/orders/count', OrderController.getTotalCount);
 
 export default routes;
