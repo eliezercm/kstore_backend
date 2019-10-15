@@ -23,6 +23,7 @@ routes.get('/products', ProductController.index);
 // TODO admin middleware
 routes.post('/categories', CategoryController.store);
 routes.post('/products', ProductController.store);
+routes.post('/products/search', ProductController.search);
 
 // Order
 routes.get('/orders', OrderController.index);

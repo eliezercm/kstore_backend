@@ -5,6 +5,28 @@ import Product from '../models/Product';
 import Category from '../models/Category';
 
 class ProductController {
+  async search(req, res) {
+    const { ids } = req.body;
+
+    if (!ids) {
+      return res.status(400).json({ error: 'Especifique os produtos' });
+    }
+
+    if (!Array.isArray(ids)) {
+      return res.status(400).json({ error: 'Formato inválido!' });
+    }
+
+    try {
+      const products = await Product.find()
+        .where('_id')
+        .in(ids);
+
+      return res.json({ products });
+    } catch (err) {
+      return res.status(400).json({ error: 'Formato inválido!' });
+    }
+  }
+
   async index(req, res) {
     const products = await Product.find();
 
