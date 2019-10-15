@@ -11,7 +11,9 @@ class OrderController {
   }
 
   async index(req, res) {
-    const orders = await Order.find().where({ user: req.userId });
+    let { status } = req.query;
+
+    const orders = await Order.find().where({ user: req.userId, status });
     return res.json({ orders });
   }
 
