@@ -28,7 +28,9 @@ class ProductController {
   }
 
   async index(req, res) {
-    const products = await Product.find();
+    const products = await Product.find()
+      .select(['-__v'])
+      .populate({ path: 'category', select: '-_id -__v' });
 
     return res.json({ products });
   }
@@ -46,6 +48,7 @@ class ProductController {
       colorCode,
       category,
       description,
+      image,
     } = req.body;
 
     if (
@@ -56,7 +59,8 @@ class ProductController {
       !size |
       !colorCode |
       !category |
-      !description
+      !description |
+      !image
     )
       return res.status(400).json({ error: 'Preencha todos os campos.' });
 
@@ -74,6 +78,7 @@ class ProductController {
       colorCode: Yup.string().required(),
       category: Yup.string().required(),
       description: Yup.string().required(),
+      image: Yup.string().required(),
     });
 
     try {
@@ -97,6 +102,7 @@ class ProductController {
       colorCode,
       category,
       description,
+      image,
     });
 
     return res.json({ product });

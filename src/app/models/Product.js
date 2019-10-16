@@ -10,6 +10,9 @@ const ProductSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  image: {
+    type: String,
+  },
   internalCode: {
     type: String,
     unique: true,
