@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import routes from './routes';
 
+import './app/validators/locale/yup.locale.pt-br';
+
 import './database';
 
 class App {

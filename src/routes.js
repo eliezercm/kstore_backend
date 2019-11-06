@@ -21,6 +21,11 @@ routes.get('/categories', CategoryController.index);
 routes.get('/products', ProductController.index);
 
 // TODO admin middleware
+
+routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.show);
+routes.put('/users/:id', UserController.update);
+
 routes.post('/categories', CategoryController.store);
 routes.post('/products', ProductController.store);
 routes.post('/products/search', ProductController.search);

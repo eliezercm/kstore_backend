@@ -9,13 +9,8 @@ class Database {
   async init() {
     try {
       this.mongoConnection = await mongoose.connect(
-        'mongodb://localhost:27017/kstore?authSource=admin',
+        'mongodb://localhost:27017/kstore',
         {
-          user: 'admin',
-          pass: 'rock123',
-          auth: {
-            authdb: 'admin',
-          },
           useNewUrlParser: true,
           useFindAndModify: true,
           useUnifiedTopology: true,

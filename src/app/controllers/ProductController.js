@@ -84,6 +84,9 @@ class ProductController {
     try {
       await schema.validate(req.body);
     } catch (err) {
+      if(err.message) {
+        return res.status(400).json({ error: err.message });
+      }
       return res.status(400).json({ error: 'Houve um erro de validação!' });
     }
 
