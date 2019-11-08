@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema({
-  user: [
+  user:
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-  ],
   date: {
     type: Date,
     default: new Date(),

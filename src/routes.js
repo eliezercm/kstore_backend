@@ -5,8 +5,10 @@ import SessionController from './app/controllers/SessionController';
 import CategoryController from './app/controllers/CategoryController';
 import ProductController from './app/controllers/ProductController';
 import OrderController from './app/controllers/OrderController';
+import RoleController from './app/controllers/RoleController';
 
 import authMiddleware from './app/middlewares/auth';
+import adminMiddleware from './app/middlewares/admin';
 
 const routes = new Router();
 
@@ -20,6 +22,8 @@ routes.use(authMiddleware);
 routes.get('/categories', CategoryController.index);
 routes.get('/products', ProductController.index);
 
+routes.get('/users/:id/role', RoleController.show)
+
 // TODO admin middleware
 
 routes.get('/users', UserController.index);
@@ -31,7 +35,7 @@ routes.post('/products', ProductController.store);
 routes.post('/products/search', ProductController.search);
 
 // Order
-routes.get('/orders', OrderController.index);
+routes.get('/orders', adminMiddleware.isAdmin, OrderController.index);
 routes.post('/orders', OrderController.store);
 routes.get('/orders/count', OrderController.getTotalCount);
 

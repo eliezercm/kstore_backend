@@ -13,6 +13,11 @@ class OrderController {
   async index(req, res) {
     let { status } = req.query;
 
+    if(req.isAdmin) {
+      const orders = await Order.find().where({ status }).populate({ path: 'user', select: 'name' });
+      return res.json({ orders });
+    }
+
     const orders = await Order.find().where({ user: req.userId, status });
     return res.json({ orders });
   }

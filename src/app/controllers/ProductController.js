@@ -28,6 +28,15 @@ class ProductController {
   }
 
   async index(req, res) {
+    const { category } = req.query;
+    if(category) {
+      const products = await Product.find().where({ category })
+      .select(['-__v'])
+      .populate({ path: 'category', select: '-_id -__v' });
+
+      return res.json({ products });
+    }
+
     const products = await Product.find()
       .select(['-__v'])
       .populate({ path: 'category', select: '-_id -__v' });
