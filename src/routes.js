@@ -22,9 +22,12 @@ routes.use(authMiddleware);
 routes.get('/categories', CategoryController.index);
 routes.get('/products', ProductController.index);
 
-routes.get('/users/:id/role', RoleController.show)
+routes.get('/users/:id/role', RoleController.show);
 
+routes.get('/orders', adminMiddleware.isAdmin, OrderController.index);
+routes.post('/orders', OrderController.store);
 routes.get('/orders/count', OrderController.getTotalCount);
+
 
 // admin middleware
 
@@ -39,8 +42,6 @@ routes.post('/products', ProductController.store);
 routes.post('/products/search', ProductController.search);
 
 // Order
-routes.get('/orders', adminMiddleware.isAdmin, OrderController.index);
-routes.post('/orders', OrderController.store);
 routes.put('/orders/:id', OrderController.update);
 
 export default routes;
