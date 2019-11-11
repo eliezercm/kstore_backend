@@ -91,6 +91,22 @@ class OrderController {
 
     return res.json({ order });
   }
+
+  async update(req, res) {
+    const { status } = req.body;
+    const { id } = req.params;
+
+    if(status !== 'Concluído' && status !== 'Cancelado') {
+      return res.status(400).json({ error: 'Status inválido. '});
+    }
+
+    try {
+      await Order.findByIdAndUpdate(id, { status });
+      return res.json({ message: "O pedido foi atualizado com sucesso!" });
+    } catch (err) {
+      return res.status(400).json({ error: 'Este pedido não existe.' });
+    }
+  }
 }
 
 export default new OrderController();

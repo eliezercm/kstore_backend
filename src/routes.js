@@ -24,7 +24,11 @@ routes.get('/products', ProductController.index);
 
 routes.get('/users/:id/role', RoleController.show)
 
-// TODO admin middleware
+routes.get('/orders/count', OrderController.getTotalCount);
+
+// admin middleware
+
+routes.use(adminMiddleware.adminOnly);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
@@ -37,6 +41,6 @@ routes.post('/products/search', ProductController.search);
 // Order
 routes.get('/orders', adminMiddleware.isAdmin, OrderController.index);
 routes.post('/orders', OrderController.store);
-routes.get('/orders/count', OrderController.getTotalCount);
+routes.put('/orders/:id', OrderController.update);
 
 export default routes;
