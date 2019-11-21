@@ -25,17 +25,25 @@ class UserController {
       return res.status(400).json({ error: 'Preencha todos os campos.' });
 
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
+      name: Yup.string()
+        .required()
+        .label('Nome'),
       email: Yup.string()
         .email()
-        .required(),
+        .required()
+        .label('E-mail'),
       password: Yup.string()
         .required()
-        .min(6),
-      phone: Yup.string().required(),
+        .min(6)
+        .max(18)
+        .label('Senha'),
+      phone: Yup.string()
+        .required()
+        .label('Telefone'),
       roleDesired: Yup.string()
         .oneOf(['Cliente', 'Revendedora'])
-        .required(),
+        .required()
+        .label('Permissão desejada'),
     });
 
     try {

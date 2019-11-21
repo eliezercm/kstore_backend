@@ -28,6 +28,8 @@ routes.get('/orders', adminMiddleware.isAdmin, OrderController.index);
 routes.post('/orders', OrderController.store);
 routes.get('/orders/count', OrderController.getTotalCount);
 
+routes.post('/products/search', ProductController.search);
+
 
 // admin middleware
 
@@ -39,7 +41,6 @@ routes.put('/users/:id', UserController.update);
 
 routes.post('/categories', CategoryController.store);
 routes.post('/products', ProductController.store);
-routes.post('/products/search', ProductController.search);
 
 // Order
 routes.put('/orders/:id', OrderController.update);

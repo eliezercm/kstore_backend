@@ -104,20 +104,28 @@ class ProductController {
     if (!categoryFromDb)
       return res.status(400).json({ error: 'Esta categoria não existe!' });
 
-    const product = await Product.create({
-      name,
-      reference,
-      internalCode,
-      price,
-      promoPrice: promoPrice ? promoPrice : 0,
-      size,
-      colorCode,
-      category,
-      description,
-      image,
-    });
+    try {
+      const product = await Product.create({
+        name,
+        reference,
+        internalCode,
+        price,
+        promoPrice: promoPrice ? promoPrice : 0,
+        size,
+        colorCode,
+        category,
+        description,
+        image,
+      });
 
-    return res.json({ product });
+      return res.json({ product });
+    } catch (err) {
+      if(err.code && err.code === 11000) {
+        return res.status(400).json({ error: 'Código interno ou de referência duplicado. Verifique e tente novamente.'})
+      }
+      return res.status(400).json({ error: 'Não foi possível cadastrar o produto, verifique os campos e tente novamente.'});
+    }
+    
   }
 }
 
